@@ -1,0 +1,9 @@
+.star-rating-container {
+  display: flex;
+  gap: 6px;
+}
+
+.active-rating {
+  color: blueviolet;
+  font-weight: 700;
+}
