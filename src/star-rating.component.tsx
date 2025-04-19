@@ -4,8 +4,14 @@ import './star-rating.styles.css';
 const StarRating = () => {
   const maxRating = 5;
   const [ currentRating, setCurrentRating ] = useState(0);
+
   const onClickHandling = (ratingValue: number) => {
-    setCurrentRating(ratingValue);
+    if (ratingValue === currentRating) {
+      setCurrentRating(0);
+    } else {
+      setCurrentRating(ratingValue);
+    }
+
   }
 
   return (
@@ -16,7 +22,17 @@ const StarRating = () => {
         {
           [...Array(maxRating)].map((_, index) => {
             const ratingValue = index + 1;
-            return <p key={index} onClick={() => onClickHandling(ratingValue)} >{ratingValue}</p>
+            return (
+              <p 
+                key={index} 
+                className={`star ${ratingValue <= currentRating ? 'active' : ''}`}
+                onClick={() => onClickHandling(ratingValue)} 
+                onMouseEnter={() => {
+                }}
+                >
+                  {ratingValue}
+              </p>
+            )
         })
         }
       </div>

@@ -1,9 +1,14 @@
 .star-rating-container {
   display: flex;
   gap: 6px;
+  cursor: pointer;
 }
 
-.active-rating {
+.star {
+  font-size: 48px;;
+}
+
+.star.active {
   color: blueviolet;
   font-weight: 700;
 }
