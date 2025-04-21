@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import './star-rating.styles.css';
 
-const StarRating = () => {
-  const maxRating = 5;
+interface StarRatingProp {
+  maxRating: number;
+  onChange: (arg: number) => void;
+}
+
+const StarRating = ({maxRating = 5, onChange}: StarRatingProp) => {
+  
   const [ currentRating, setCurrentRating ] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
 
-  const onClickHandling = (ratingValue: number) => {
+  const onClickHandling = useCallback((ratingValue: number) => {
     if (ratingValue === currentRating) {
       setCurrentRating(0);
     } else {
       setCurrentRating(ratingValue);
     }
-  };
+  }, [currentRating]);
+
+  useEffect(() => {
+    onChange(currentRating);
+  }, [currentRating, onChange]);
 
   return (
     <>
       <div className="star-rating-container">
         {/* stars */}
-        <p>Rating: {currentRating}</p>
         {
           [...Array(maxRating)].map((_, index) => {
             const ratingValue = index + 1;
@@ -30,7 +38,7 @@ const StarRating = () => {
                 onMouseEnter={() => {setHoveredRating(ratingValue)}}
                 onMouseLeave={() => setHoveredRating(0)}
               >
-                {ratingValue}
+                &#9733;
               </p>
             )
         })

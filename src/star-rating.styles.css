@@ -5,10 +5,11 @@
 }
 
 .star {
-  font-size: 48px;;
+  font-size: 48px;
+  font-weight: 700;
+
 }
 
 .star.active {
   color: blueviolet;
-  font-weight: 700;
 }
