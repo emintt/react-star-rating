@@ -4,25 +4,27 @@ import './star-rating.styles.css';
 interface StarRatingProp {
   maxRating: number;
   onChange: (arg: number) => void;
-}
+};
 
 const StarRating = ({maxRating = 5, onChange}: StarRatingProp) => {
   
   const [ currentRating, setCurrentRating ] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
 
-  const onClickHandling = useCallback((ratingValue: number) => {
-    if (ratingValue === currentRating) {
+  // trigger onChange cb fnc when rating change
+  useEffect(() => {
+    onChange(currentRating);
+  }, [currentRating, onChange]);
+
+  // useCallback: run handleOnClick only when currentRating value change
+  const handleOnClick = useCallback((ratingValue: number) => {
+    if (currentRating === ratingValue) {
       setCurrentRating(0);
     } else {
       setCurrentRating(ratingValue);
     }
   }, [currentRating]);
-
-  useEffect(() => {
-    onChange(currentRating);
-  }, [currentRating, onChange]);
-
+  
   return (
     <>
       <div className="star-rating-container">
@@ -32,16 +34,15 @@ const StarRating = ({maxRating = 5, onChange}: StarRatingProp) => {
             const ratingValue = index + 1;
             return (
               <p 
-                key={index} 
-                className={`star ${ratingValue <= (hoveredRating || currentRating) ? 'active' : ''}`}
-                onClick={() => onClickHandling(ratingValue)} 
-                onMouseEnter={() => {setHoveredRating(ratingValue)}}
+                key={index}
+                className={`star ${ratingValue <= (hoveredRating || currentRating) ? 'active': ''}`}
+                onClick={() => handleOnClick(ratingValue)}
+                onMouseOver={() => setHoveredRating(ratingValue)}
                 onMouseLeave={() => setHoveredRating(0)}
               >
-                &#9733;
-              </p>
-            )
-        })
+                {ratingValue}
+              </p>)
+          })
         }
       </div>
     </>
